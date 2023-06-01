@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+
+{% block title %}
+ Dashboard
+{% endblock title %}
+{% block styles %}
+<style>
+  :root {
+    --clr-primary: #651fff;
+    --clr-gray: #37474f;
+    --clr-gray-light: #b0bec5;
+  }
+  * {
+    box-sizing: border-box;
+    font-family: "Open Sans", sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  body {
+
+  color: var(--clr-gray);
+  }
+  .wrapper-grid1 {
+    display: grid;
+    grid-template-columns: minmax(300px, 1fr);
+    grid-gap: 2rem;
+    justify-content: center;
+  }
+  
+
+  .container1 {
+    overflow: hidden;
+    box-shadow: 0px 2px 8px 0px var(--clr-gray-light);
+    background-color: white;
+    text-align: center;
+    border-radius: 1rem;
+    position: relative;
+  }
+  
+
+  .banner-img1 {
+    position: absolute;
+    background-image: url(https://images.unsplash.com/photo-1582727657635-c771002bdada?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ);
+    height: 10rem;
+    width: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  
+
+  .profile-img1 {
+    width: 8rem;
+    clip-path: circle(60px at center);
+    margin-top: 4.5rem;
+  }
+  
+
+  .name {
+    font-weight: bold;
+    font-size: 1.5rem;
+  }
+  
+
+  .description {
+    margin: 1rem 2rem;
+    font-size: 0.9rem;
+  }
+  
+
+  .btn1 {
+    width: 100%;
+    border: none;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    padding: 1rem;
+    background-color: var(--clr-primary);
+  }
+  
+
+  @media screen and (min-width: 500px) {
+    .wrapper-grid1 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media screen and (min-width: 760px) {
+    .wrapper-grid1 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+</style>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+{% endblock styles %}
+{% block body %}
+{% load static %}
+<div class="row">
+    <div class="col-md-12 grid-margin">
+      <div class="row">
+        <div class="col-12 col-xl-8 mb-4 mb-xl-0">
+          <h3 class="font-weight-bold">Welcome {{ name }} !!</h3>
+          <h6 class="font-weight-normal mb-0">Unlock the power of innovation and discovery in our lab portal. You have <span class="text-primary">3 unread alerts!</span></h6>
+        </div>
+        <div class="col-12 col-xl-4">
+         <div class="justify-content-end d-flex">
+          <div class="dropdown flex-md-grow-1 flex-xl-grow-0">
+            <button class="btn btn-sm btn-light bg-white dropdown-toggle" type="button" id="dropdownMenuDate2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+             <i class="mdi mdi-calendar"></i> Today (10 Jan 2021)
+            </button>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuDate2">
+              <a class="dropdown-item" href="#">January - March</a>
+              <a class="dropdown-item" href="#">March - June</a>
+              <a class="dropdown-item" href="#">June - August</a>
+              <a class="dropdown-item" href="#">August - November</a>
+            </div>
+          </div>
+         </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="grid-margin stretch-card mx-auto col-12 ">
+        <div class="card">
+            <div class="col-12 grid-margin"> 
+            <div class="card-body">
+              <h4 class="card-title">Our Recommendations </h4>
+              <p class="card-description">
+                 
+              </p>
+  <div class="wrapper-grid1">
+    <div class="container1">
+      <div class='banner-img1'></div>
+      <img src='https://images.unsplash.com/photo-1444011283387-7b0f76371f12?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ' alt='profile image' class="profile-img1">
+      <h1 class="name">Anna Marie</h1>
+      <p class="description">Hi there! My name is Anna and I am a book lover, traveler and professional blogger. Follow me to stay connected!</p>
+      <button class='btn1'>Follow</button>
+    </div>
+
+    <div class="container1">
+      <div class='banner-img1'></div>
+      <img src='https://images.unsplash.com/photo-1444011283387-7b0f76371f12?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ' alt='profile image' class="profile-img1">
+      <p class="name">Anna Marie</p>
+      <p class="description">Hi there! My name is Anna and I am a book lover, traveler and professional blogger. Follow me to stay connected!</p>
+      <button class='btn1'>Follow</button>
+    </div>
+
+    <div class="container1">
+      <div class='banner-img1'></div>
+      <img src='https://images.unsplash.com/photo-1444011283387-7b0f76371f12?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ' alt='profile image' class="profile-img1">
+      <p class="name">Anna Marie</p>
+      <p class="description">Hi there! My name is Anna and I am a book lover, traveler and professional blogger. Follow me to stay connected!</p>
+      <button class='btn1'>Follow</button>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+</div>
+
+{% endblock body %}

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title> {% block title %}
+  
+  {% endblock title %}</title>
+  <!-- plugins:css -->
+  {% load static %}
+  <link rel="stylesheet" href="{% static '/vendors/feather/feather.css' %}">
+  <link rel="stylesheet" href="{% static 'vendors/ti-icons/css/themify-icons.css' %}">
+  <link rel="stylesheet" href="{% static '/vendors/css/vendor.bundle.base.css' %}">
+  <!-- endinject -->
+  <!-- Plugin css for this page -->
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="{% static '/css/vertical-layout-light/style.css' %}">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="{% static '/images/favicon.png' %}" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.5.5/css/simple-line-icons.css" integrity="sha512-9Tu/Gu0+bXW+oGrTGJOeNz2RG4MaF52FznXCciXFrXehFTLF6phJnJFNVOU2mmj9FWIXk9ap0H1ocygu1ZTRqg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  {% block styles %}
+  
+  {% endblock styles %}
+</head>
+
+<body>
+    <div class="container-scroller">
+        {% include 'navbar.html' %}
+        {% block body %}
+        
+        {% endblock body %}
+        
+        {% include 'footer.html' %}
+    </div>
+    <!-- container-scroller -->
+      <!-- plugins:js -->
+  <script src="{% static '/vendors/js/vendor.bundle.base.js' %}"></script>
+  <!-- endinject -->
+  <!-- Plugin js for this page -->
+  <!-- End plugin js for this page -->
+  <!-- inject:js -->
+  {% block script %}
+  
+  {% endblock script %}
+  <script src="{% static '/js/off-canvas.js' %}"></script>
+  <script src="{% static '/js/hoverable-collapse.js' %}"></script>
+  <script src="{% static '/js/template.js' %}"></script>
+  <script src="{% static '/js/settings.js' %}"></script>
+  <script src="{% static '/js/todolist.js' %}"></script>
+  <!-- endinject -->
+</body>
+
+</html>

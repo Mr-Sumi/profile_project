@@ -1,0 +1,12 @@
+section {
+    padding: 5em;
+    label>span{
+      display: inline-block;
+      padding-top: 0.5em;
+      vertical-align: top;
+      &:after {
+        content: ':';
+        padding-right: 0.5em;
+      }
+    }
+  }

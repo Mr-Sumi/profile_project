@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+{% block title %}
+Client 
+{% endblock title %}
+{% block styles %}
+<link rel="stylesheet" href="https://www.bootstrapdash.com/demo/skydash/template/vendors/datatables.net-bs4/dataTables.bootstrap4.css"  />
+
+{% endblock styles %}
+{% block script %}
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{% if messages %}
+    {% for message in messages %}
+        {% if message.tags == 'success' %}
+            <script>
+                Swal.fire({
+                    title: 'Success',
+                    text: '{{ message }}',
+                    icon: 'success'
+                });
+            </script>
+        {% elif message.tags == 'error' %}
+            <script>
+                Swal.fire({
+                    title: 'Error',
+                    text: '{{ message }}',
+                    icon: 'error'
+                });
+            </script>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+<script src="https://www.bootstrapdash.com/demo/skydash/template/js/data-table.js"> </script>
+<script src="https://www.bootstrapdash.com/demo/skydash/template/vendors/datatables.net-bs4/dataTables.bootstrap4.js"> </script>
+<script src="https://www.bootstrapdash.com/demo/skydash/template/vendors/datatables.net/jquery.dataTables.js"> </script>
+<script src="https://www.bootstrapdash.com/demo/skydash/template/vendors/js/vendor.bundle.base.js"> </script>
+<script src="https://www.bootstrapdash.com/demo/skydash/template/vendors/datatables.net/jquery.dataTables.js"> </script>
+
+{% endblock script %}
+
+{% block body %}
+
+<div class="row">
+    <div class="col-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="col-md-6 grid-margin"> 
+            <div class="card-body">
+            <h4 class="card-title">Default form</h4>
+            <p class="card-description">
+                Basic form layout
+            </p>
+            <form class="forms-sample" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                <label for="exampleInputUsername1">Username</label>
+                <input type="text" class="form-control" name="username" id="exampleInputUsername1" placeholder="Username">
+                </div>
+                <div class="form-group">
+                <label for="name1">Name</label>
+                <input type="text" class="form-control" name="name" id="name1" placeholder="Username">
+                </div>
+                <div class="form-group">
+                <label for="exampleInputEmail1">Email address</label>
+                <input type="email" class="form-control" name="email" id="exampleInputEmail1" placeholder="Email">
+                </div>
+                <div class="form-group">
+                <label for="company1">Company </label>
+                <input type="text" class="form-control" id="company1" name="company" placeholder="Company Name...">
+                </div>
+                <div class="form-group">
+                <label for="designation1">Designation</label>
+                <input type="text" class="form-control" id="designation1" name="designation" placeholder="Designation...">
+                </div>
+                <div class="form-group">
+                <label for="phone">Phone Number </label>
+                <input type="number" class="form-control" id="phone" name="phone_number" placeholder="Phone Number...">
+                </div>
+                <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                </div>
+                <div class="form-check form-check-flat form-check-primary">
+                <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input">
+                    Remember me
+                </label>
+                </div>
+                <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                <button class="btn btn-light">Cancel</button>
+            </form>
+            </div>
+    </div>
+      </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Data table</h4>
+          <div class="row">
+            <div class="col-12">
+              <div class="table-responsive">
+                <div id="order-listing_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer"><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="order-listing_length">
+                    </div></div><div class="col-sm-12 col-md-6"><div id="order-listing_filter" class="dataTables_filter"></label></div></div></div><div class="row"><div class="col-sm-12"><table id="order-listing" class="table dataTable no-footer" role="grid" aria-describedby="order-listing_info">
+                  <thead>
+                    <tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="order-listing" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Order #: activate to sort column descending" style="width: 50.0469px;">Sl No. #</th>
+                        <th class="sorting" tabindex="0" aria-controls="order-listing" rowspan="1" colspan="1" aria-label="Customer: activate to sort column ascending" style="width: 62.9375px;">Name</th><th class="sorting" tabindex="0" aria-controls="order-listing" rowspan="1" colspan="1" aria-label="Ship to: activate to sort column ascending" style="width: 52.1562px;">Username</th>
+                        <th class="sorting" tabindex="0" aria-controls="order-listing" rowspan="1" colspan="1" aria-label="Base Price: activate to sort column ascending" style="width: 67.6094px;">Company</th><th class="sorting" tabindex="0" aria-controls="order-listing" rowspan="1" colspan="1" aria-label="Purchased Price: activate to sort column ascending" style="width: 103.672px;">Designation</th>
+                        <th class="sorting" tabindex="0" aria-controls="order-listing" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending" style="width: 60.8438px;">Status</th><th class="sorting" tabindex="0" aria-controls="order-listing" rowspan="1" colspan="1" aria-label="Actions: activate to sort column ascending" style="width: 58.3594px;">Actions</th></tr>
+                  </thead>
+                  <tbody>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    {% for user in users %}
+                    {% if user.is_staff or user.is_superuser %}
+                    {% else %}
+                  <tr class="odd">
+                        <td class="sorting_1">{{ forloop.counter }}</td>
+                        <td>{{ user.name }}</td>
+                        <td>{{ user.user.username }}</td>
+                        <td>{{ user.company }}</td>
+                        <td>{{ user.designation }}</td>
+                        <td>
+                          <label class="badge badge-{% if user.is_staff or user.is_superuser %}danger{% else %}success{% endif %}">{% if user.is_staff or user.is_superuser %}Admin{% else %}Client{% endif %}</label>
+                        </td>
+                        <td>
+                          <button class="btn btn-outline-danger">Delete</button>
+                        </td>
+                    </tr>
+                    
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+                </table></div></div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="order-listing_info" role="status" aria-live="polite">Showing 1 to 10 of 10 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="order-listing_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="order-listing_previous"><a href="#" aria-controls="order-listing" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="order-listing" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item next disabled" id="order-listing_next"><a href="#" aria-controls="order-listing" data-dt-idx="2" tabindex="0" class="page-link">Next</a></li></ul></div></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+{% endblock body %}

@@ -1,0 +1,408 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Profile
+{% endblock title %}
+
+{% block styles %}
+<style>
+    .optext{
+        color: white;
+        background: purple;
+        margin-top: 2px;
+
+    }
+    .optdel{
+        color: white;
+    }
+    /* CSS for the progress bar */
+.progress-bar-container {
+  position: relative;
+  width: 100%;
+  height: 4px;
+  background-color: #f0f0f0;
+}
+
+.progress-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-color: #007bff;
+  transition: width 0.3s ease;
+}
+
+/* CSS to shield the form */
+.form-shield {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.7);
+  z-index: 9999;
+}
+</style>
+{% endblock styles %}
+
+{% block script %}
+<!-- Add the SweetAlert library -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- ... previous HTML code ... -->
+
+{% if alert_message %}
+var alertType = "{{ alert_type }}";
+var alertMessage = "{{ alert_message }}";
+if (alertType === 'success') {
+  Swal.fire(
+    "Success!", 
+    alertMessage, 
+    "success");
+} else {
+    Swal.fire("Error!", alertMessage, "error");
+}
+{% endif %}
+
+<!-- ... remaining HTML code ... -->
+
+<script>
+  {% if alert_type %}
+var alertType = "{{ alert_type }}";
+console.log(alertType);
+var alertMessage = "{{ sucess_message }}";
+if (alertType === 'success') {
+  Swal.fire(
+    "Success!", 
+    alertMessage, 
+    "success");
+} else {
+    Swal.fire("Error!", alertMessage, "error");
+}
+{% endif %}
+    var style = document.createElement('style');
+style.setAttribute("id","multiselect_dropdown_styles");
+style.innerHTML = `
+.multiselect-dropdown{
+  display: inline-block;
+  padding: 2px 5px 0px 5px;
+  border-radius: 4px;
+  border: solid 1px #ced4da;
+  background-color: white;
+  position: relative;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right .75rem center;
+  background-size: 16px 12px;
+}
+.multiselect-dropdown span.optext, .multiselect-dropdown span.placeholder{
+  margin-right:0.5em; 
+  margin-bottom:2px;
+  padding:1px 5px; 
+  border-radius: 4px; 
+  display:inline-block;
+}
+.multiselect-dropdown {
+  background-color:white;
+  padding:1px 0.75em; 
+  width: 100%
+}
+.multiselect-dropdown span.optext .optdel {
+  float: right;
+  margin: 0 -6px 1px 5px;
+  font-size: 0.7em;
+  margin-top: 5px;
+  cursor: pointer;
+  padding-right: 8px;
+
+}
+.multiselect-dropdown span.optext .optdel:hover { color: #c66;}
+.multiselect-dropdown span.placeholder{
+  color:#ced4da;
+}
+.multiselect-dropdown-list-wrapper{
+  box-shadow: gray 0 3px 8px;
+  z-index: 100;
+  padding:2px;
+  border-radius: 4px;
+  border: solid 1px #ced4da;
+  display: none;
+  margin: -1px;
+  position: absolute;
+  top:0;
+  left: 0;
+  right: 0;
+  background: white;
+}
+.multiselect-dropdown-list-wrapper .multiselect-dropdown-search{
+  margin-bottom:5px;
+}
+.multiselect-dropdown-list{
+  padding:2px;
+  height: 15rem;
+  overflow-y:auto;
+  overflow-x: hidden;
+}
+.multiselect-dropdown-list::-webkit-scrollbar {
+  width: 6px;
+}
+.multiselect-dropdown-list::-webkit-scrollbar-thumb {
+  background-color: #bec4ca;
+  border-radius:3px;
+}
+
+.multiselect-dropdown-list div{
+  padding: 5px;
+}
+.multiselect-dropdown-list input{
+  height: 1.15em;
+  width: 1.15em;
+  margin-right: 0.35em;  
+}
+.multiselect-dropdown-list div.checked{
+}
+.multiselect-dropdown-list div:hover{
+  background-color: #ced4da;
+}
+.multiselect-dropdown span.maxselected {width:100%;}
+.multiselect-dropdown-all-selector {border-bottom:solid 1px #999;}
+`;
+document.head.appendChild(style);
+
+function MultiselectDropdown(options){
+  var config={
+    search:true,
+    height:'15rem',
+    placeholder:'select',
+    txtSelected:'selected',
+    txtAll:'All',
+    txtRemove: 'Remove',
+    txtSearch:'search',
+    ...options
+  };
+  function newEl(tag,attrs){
+    var e=document.createElement(tag);
+    if(attrs!==undefined) Object.keys(attrs).forEach(k=>{
+      if(k==='class') { Array.isArray(attrs[k]) ? attrs[k].forEach(o=>o!==''?e.classList.add(o):0) : (attrs[k]!==''?e.classList.add(attrs[k]):0)}
+      else if(k==='style'){  
+        Object.keys(attrs[k]).forEach(ks=>{
+          e.style[ks]=attrs[k][ks];
+        });
+       }
+      else if(k==='text'){attrs[k]===''?e.innerHTML='&nbsp;':e.innerText=attrs[k]}
+      else e[k]=attrs[k];
+    });
+    return e;
+  }
+
+  
+  document.querySelectorAll("select[multiple]").forEach((el,k)=>{
+    
+    var div=newEl('div',{class:'multiselect-dropdown',style:{padding:config.style?.padding??''}});
+    el.style.display='none';
+    el.parentNode.insertBefore(div,el.nextSibling);
+    var listWrap=newEl('div',{class:'multiselect-dropdown-list-wrapper'});
+    var list=newEl('div',{class:'multiselect-dropdown-list',style:{height:config.height}});
+    var search=newEl('input',{class:['multiselect-dropdown-search'].concat([config.searchInput?.class??'form-control']),style:{width:'100%',display:el.attributes['multiselect-search']?.value==='true'?'block':'none'},placeholder:config.txtSearch});
+    listWrap.appendChild(search);
+    div.appendChild(listWrap);
+    listWrap.appendChild(list);
+
+    el.loadOptions=()=>{
+      list.innerHTML='';
+      
+      if(el.attributes['multiselect-select-all']?.value=='true'){
+        var op=newEl('div',{class:'multiselect-dropdown-all-selector'})
+        var ic=newEl('input',{type:'checkbox'});
+        op.appendChild(ic);
+        op.appendChild(newEl('label',{text:config.txtAll}));
+  
+        op.addEventListener('click',()=>{
+          op.classList.toggle('checked');
+          op.querySelector("input").checked=!op.querySelector("input").checked;
+          
+          var ch=op.querySelector("input").checked;
+          list.querySelectorAll(":scope > div:not(.multiselect-dropdown-all-selector)")
+            .forEach(i=>{if(i.style.display!=='none'){i.querySelector("input").checked=ch; i.optEl.selected=ch}});
+  
+          el.dispatchEvent(new Event('change'));
+        });
+        ic.addEventListener('click',(ev)=>{
+          ic.checked=!ic.checked;
+        });
+        el.addEventListener('change', (ev)=>{
+          let itms=Array.from(list.querySelectorAll(":scope > div:not(.multiselect-dropdown-all-selector)")).filter(e=>e.style.display!=='none')
+          let existsNotSelected=itms.find(i=>!i.querySelector("input").checked);
+          if(ic.checked && existsNotSelected) ic.checked=false;
+          else if(ic.checked==false && existsNotSelected===undefined) ic.checked=true;
+        });
+  
+        list.appendChild(op);
+      }
+
+      Array.from(el.options).map(o=>{
+        var op=newEl('div',{class:o.selected?'checked':'',optEl:o})
+        var ic=newEl('input',{type:'checkbox',checked:o.selected});
+        op.appendChild(ic);
+        op.appendChild(newEl('label',{text:o.text}));
+
+        op.addEventListener('click',()=>{
+          op.classList.toggle('checked');
+          op.querySelector("input").checked=!op.querySelector("input").checked;
+          op.optEl.selected=!!!op.optEl.selected;
+          el.dispatchEvent(new Event('change'));
+        });
+        ic.addEventListener('click',(ev)=>{
+          ic.checked=!ic.checked;
+        });
+        o.listitemEl=op;
+        list.appendChild(op);
+      });
+      div.listEl=listWrap;
+
+      div.refresh=()=>{
+        div.querySelectorAll('span.optext, span.placeholder').forEach(t=>div.removeChild(t));
+        var sels=Array.from(el.selectedOptions);
+        if(sels.length>(el.attributes['multiselect-max-items']?.value??5)){
+          div.appendChild(newEl('span',{class:['optext','maxselected'],text:sels.length+' '+config.txtSelected}));          
+        }
+        else{
+          sels.map(x=>{
+            var c=newEl('span',{class:'optext',text:x.text, srcOption: x});
+            if((el.attributes['multiselect-hide-x']?.value !== 'true'))
+              c.appendChild(newEl('span',{class:'optdel',text:'🗙',title:config.txtRemove, onclick:(ev)=>{c.srcOption.listitemEl.dispatchEvent(new Event('click'));div.refresh();ev.stopPropagation();}}));
+
+            div.appendChild(c);
+          });
+        }
+        if(0==el.selectedOptions.length) div.appendChild(newEl('span',{class:'placeholder',text:el.attributes['placeholder']?.value??config.placeholder}));
+      };
+      div.refresh();
+    }
+    el.loadOptions();
+    
+    search.addEventListener('input',()=>{
+      list.querySelectorAll(":scope div:not(.multiselect-dropdown-all-selector)").forEach(d=>{
+        var txt=d.querySelector("label").innerText.toUpperCase();
+        d.style.display=txt.includes(search.value.toUpperCase())?'block':'none';
+      });
+    });
+
+    div.addEventListener('click',()=>{
+      div.listEl.style.display='block';
+      search.focus();
+      search.select();
+    });
+    
+    document.addEventListener('click', function(event) {
+      if (!div.contains(event.target)) {
+        listWrap.style.display='none';
+        div.refresh();
+      }
+    });    
+  });
+}
+
+window.addEventListener('load',()=>{
+  MultiselectDropdown(window.MultiselectDropdownOptions);
+});
+</script>
+{% endblock script %}
+
+{% block body %}
+<div class="row">
+    <div class="grid-margin stretch-card mx-auto col-12 ">
+        <div class="card">
+            <div class="col-md-6 grid-margin"> 
+            <div class="card-body">
+            <h4 class="card-title">Profile Tab!! </h4>
+            <p class="card-description">
+                Update Or Complite Your Profile Details 
+            </p>
+            <form class="forms-sample" id="profileForm" method="post" enctype="multipart/form-data">
+               {% csrf_token %}
+                <div class="form-group">
+                    <label for="name1">Name </label>
+                    <input type="text" class="form-control" name="name" id="name1" placeholder="Email">
+                </div>
+                
+                <div class="form-group">
+                <label for="email1">Email address </label>
+                <input type="email" class="form-control" required name="email" id="email1" placeholder="Email">
+                </div>
+                <div class="form-group">
+                    <label for="email1">phone  address </label>
+                    <input type="number" class="form-control" required name="phone_number" id="email1" placeholder="Email">
+                    </div>
+                <div class="form-group">
+                <label for="deliveries1">deliveries</label>
+                <input type="text" name="deliveries" class="form-control" required  id="deliveries1"  placeholder="Deliveries">
+                </div>
+                <div class="form-group">
+                <label for="rating1">rating </label>
+                <input type="text" class="form-control" name="rating" required  id="rating1"  placeholder="Rating">
+                </div>
+                <div class="form-group">
+                <label for="experience1">experience </label>
+                <input type="text" class="form-control" name="experience" required  id="experience1"  placeholder="Experience">
+                </div>
+                <div class="form-group">
+                <label for="education1">education</label>
+                <input type="text" class="form-control" name="education" required  id="education1"  placeholder="Education1">
+                </div>
+                <div class="form-group">
+                <label for="designation1">Designation</label>
+                <input type="text" class="form-control" required  id="designation1" placeholder="Password">
+                </div>  <select class="form-multi-select" multiple data-coreui-search="true" name="Designation">
+                    {% for category in categories %}
+                      <option value="{{ category.id }}">{{ category.category_name }}</option>
+                    {% endfor %}
+                  </select>
+                  <br>
+                  <br>
+                  <select class="form-multi-select" multiple data-coreui-search="true" name="key_skill">
+                    {% for key_skill in key_skills %}
+                      <option value="{{ key_skill.id }}">{{ key_skill.key_skill_name }}</option>
+                    {% endfor %}
+                  </select>
+                  <br>
+                  <br><div class="form-group">
+                    <label>File upload</label>
+                    <input type="file" name="img[]" class="file-upload-default">
+                    <div class="input-group col-xs-12">
+                      <input type="text" class="form-control file-upload-info" disabled="" placeholder="Upload Image">
+                      <span class="input-group-append">
+                        <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
+                      </span>
+                    </div>
+                        </div>
+                        <!-- Progress bar -->
+        <div class="progress-bar-container" style="display: none;">
+          <div class="progress-bar"></div>
+        </div>
+        
+        <!-- Form shield -->
+        <div class="form-shield" style="display: none;"></div>
+                <div class="form-group">
+                    <label for="profilePic">Profile Pic </label>
+                    <input type="file" class="form-control" required name="profile_pic" id="profilePic" accept="image/*"  placeholder="Profile Pic ">
+                    </div>
+                <div class="form-check form-check-flat form-check-primary">
+                <label class="form-check-label">
+                    <input type="checkbox" required class="form-check-input">
+                    I Sure All The Changes Made Are Correct
+                </label>
+                </div>
+                <button type="submit" class="btn btn-primary mr-2">Update Profile</button>
+                <button class="btn btn-light">Cancel</button>
+            </form>
+        </div>
+            </div>
+        </div>
+    </div>
+{% endblock body %}

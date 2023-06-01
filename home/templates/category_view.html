@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block title %}
+Key Skill
+{% endblock title %}
+
+{% block script %}
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{% if messages %}
+    {% for message in messages %}
+        {% if message.tags == 'success' %}
+            <script>
+                Swal.fire({
+                    title: 'Success',
+                    text: '{{ message }}',
+                    icon: 'success'
+                });
+            </script>
+        {% elif message.tags == 'error' %}
+            <script>
+                Swal.fire({
+                    title: 'Error',
+                    text: '{{ message }}',
+                    icon: 'error'
+                });
+            </script>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+{% endblock script %}
+
+{% block body %}
+<div class="row">
+    <div class="grid-margin stretch-card mx-auto col-12 ">
+        <div class="card">
+            <div class="col-md-6 grid-margin"> 
+            <div class="card-body">
+            <h4 class="card-title">Profile Tab!! </h4>
+            <p class="card-description">
+                Update Or Complite Your Profile Details 
+            </p>
+            <form class="forms-sample" method="POST" >
+                {% csrf_token %}
+                <div class="form-group">
+                <label for="name1">Name </label>
+                <input type="text" class="form-control" name="category_name" id="name1" placeholder="Email">
+                </div>
+                <div class="form-check form-check-flat form-check-primary">
+                <label class="form-check-label">
+                    <input type="checkbox" required class="form-check-input">
+                    I Sure All The Changes Made Are Correct
+                </label>
+                </div>
+                <button type="submit" class="btn btn-primary mr-2">Update Profile</button>
+                <button class="btn btn-light">Cancel</button>
+            </form>
+        </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock body %}
