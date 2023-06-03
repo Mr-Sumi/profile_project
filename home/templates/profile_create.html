@@ -324,7 +324,7 @@ window.addEventListener('load',()=>{
             <p class="card-description">
                 Update Or Complite Your Profile Details 
             </p>
-            <form class="forms-sample" id="profileForm" method="post" enctype="multipart/form-data">
+            <form class="forms-sample" id="profileForm" method="POST" enctype="multipart/form-data">
                {% csrf_token %}
                 <div class="form-group">
                     <label for="name1">Name </label>
@@ -356,16 +356,15 @@ window.addEventListener('load',()=>{
                 <input type="text" class="form-control" name="education" required  id="education1"  placeholder="Education1">
                 </div>
                 <div class="form-group">
-                <label for="designation1">Designation</label>
-                <input type="text" class="form-control" required  id="designation1" placeholder="Password">
-                </div>  <select class="form-multi-select" multiple data-coreui-search="true" name="Designation">
-                    {% for category in categories %}
-                      <option value="{{ category.id }}">{{ category.category_name }}</option>
-                    {% endfor %}
-                  </select>
+                <label for="designation1">Category</label>
+                <select class="form-multi-select" multiple data-coreui-search="true" name="category">
+                  {% for category in categories %}
+                    <option value="{{ category.id }}">{{ category.category_name }}</option>
+                  {% endfor %}
+                </select>
+                </div>  
                   <br>
-                  <br>
-                  <select class="form-multi-select" multiple data-coreui-search="true" name="key_skill">
+                  <select class="form-multi-select" multiple data-coreui-search="true" name="key_skills">
                     {% for key_skill in key_skills %}
                       <option value="{{ key_skill.id }}">{{ key_skill.key_skill_name }}</option>
                     {% endfor %}

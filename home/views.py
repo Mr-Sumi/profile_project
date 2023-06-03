@@ -107,7 +107,7 @@ def create_profile(request):
         phone_number = request.POST['phone_number']
         email = request.POST['email']
         profile_pic = request.FILES['profile_pic']
-        categories = request.POST.getlist('categories')
+        categories = request.POST.getlist('category')
         rating = request.POST['rating']
         key_skills = request.POST.getlist('key_skills')
         deliveries = request.POST['deliveries']
@@ -138,12 +138,12 @@ def create_profile(request):
 
         # Associate selected categories with the user profile
         for category_id in categories:
-            category = Category.objects.get(category_id=category_id)
+            category = Category.objects.get(id=category_id)
             profile.category.add(category)
 
         # Associate selected key skills with the user profile
         for key_skill_id in key_skills:
-            key_skill = KeySkill.objects.get(key_skill_id=key_skill_id)
+            key_skill = KeySkill.objects.get(id=key_skill_id)
             profile.key_skills.add(key_skill)
 
         # Display success message and render the template
@@ -216,7 +216,9 @@ def create_client(request):
     return render(request, 'client_create.html',{'users':users})
 
 def all_profile(request):
-    return HttpResponse('this is profile')
+    users = UserProfile.objects.all()
+    return render(request, 'all_profile.html',{'users':users})
+    # return HttpResponse('this is profile')
 
 
 def logout1(request):
