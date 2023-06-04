@@ -184,6 +184,9 @@ Client
         left: 0;
         z-index: 10;
     }
+    .checked{
+        color: #2ed8b6;
+    }
 </style>
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 {% endblock styles %}
@@ -237,15 +240,39 @@ Client
                     <h6 class="f-w-600 m-t-25 m-b-10">{{ user.name }}</h6>
                     <p class="text-muted"> {% for category in user.category.all %} {{ category.category_name }} {% if not forloop.last %} | {% endif %}{% endfor %}</p>
                     <hr>
-                    <p class="text-muted m-t-15">Activity Level: 87%</p>
-                    <ul class="list-unstyled activity-leval">
-                        <li class="active"></li>
-                        <li class="active"></li>
-                        <li class="active"></li>
-                        <li></li>
-                        <li></li>
-                    </ul>
+                   
+                    
+                    {% if user.rating >= 1.0 %}
+  <span class="fa fa-star checked"></span>
+{% else %}
+  <span class="fa fa-star"></span>
+{% endif %}
+
+{% if user.rating >= 2.0 %}
+  <span class="fa fa-star checked"></span>
+{% else %}
+  <span class="fa fa-star"></span>
+{% endif %}
+
+{% if user.rating >= 3.0 %}
+  <span class="fa fa-star checked"></span>
+{% else %}
+  <span class="fa fa-star"></span>
+{% endif %}
+
+{% if user.rating >= 4.0 %}
+  <span class="fa fa-star checked"></span>
+{% else %}
+  <span class="fa fa-star"></span>
+{% endif %}
+
+{% if user.rating >= 5.0 %}
+  <span class="fa fa-star checked"></span>
+{% else %}
+  <span class="fa fa-star"></span>
+{% endif %}
                     <p class="m-t-15 text-muted"></p>
+                    <p class="text-muted m-t-15">Commercial: {{ user.commercial_hr }}/hr, {{ user.commercial_day }}/day</p>
                     <hr>
                     <div class="row justify-content-center user-social-link">
                         <div class="col-auto">

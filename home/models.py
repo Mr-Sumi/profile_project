@@ -32,11 +32,13 @@ class UserProfile(models.Model):
     email = models.EmailField()
     profile_pic = models.ImageField(upload_to='profile_pics')
     category = models.ManyToManyField(Category)
-    rating = models.DecimalField(max_digits=2, decimal_places=1)
+    rating = models.IntegerField()
     key_skills = models.ManyToManyField(KeySkill)
     deliveries = models.CharField(max_length=255)
     experience = models.CharField(max_length=255)
     education = models.CharField(max_length=255)
+    commercial_hr = models.IntegerField(default='00')
+    commercial_day = models.IntegerField(default='00')
 
     def save(self, *args, **kwargs):
         if not self.pk:

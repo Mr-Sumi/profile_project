@@ -113,6 +113,8 @@ def create_profile(request):
         deliveries = request.POST['deliveries']
         experience = request.POST['experience']
         education = request.POST['education']
+        commercial_hr = request.POST['commercial_hr']
+        commercial_day = request.POST['commercial_day']
 
 
         # Generate a random file name for the image
@@ -133,6 +135,8 @@ def create_profile(request):
             deliveries=deliveries,
             experience=experience,
             education=education,
+            commercial_hr=commercial_hr,
+            commercial_day=commercial_day,
         )
         profile.save()
 
