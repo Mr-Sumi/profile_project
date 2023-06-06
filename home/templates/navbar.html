@@ -21,6 +21,7 @@
         </li>
       </ul>
       <ul class="navbar-nav navbar-nav-right">
+        {% if user.is_superuser or user.is_staff %}
         <li class="nav-item dropdown">
           <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
             <i class="icon-bell mx-0"></i>
@@ -28,6 +29,7 @@
           </a>
           <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
             <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications</p>
+            {% for notification in notifications %}
             <a class="dropdown-item preview-item">
               <div class="preview-thumbnail">
                 <div class="preview-icon bg-success">
@@ -35,40 +37,20 @@
                 </div>
               </div>
               <div class="preview-item-content">
-                <h6 class="preview-subject font-weight-normal">Application Error</h6>
+                <h6 class="preview-subject font-weight-normal">{{ notification.message }}</h6>
                 <p class="font-weight-light small-text mb-0 text-muted">
-                  Just now
+                  {% load humanize %}
+                  {{ notification.created_at|timesince }} ago
+
+                 
                 </p>
               </div>
             </a>
-            <a class="dropdown-item preview-item">
-              <div class="preview-thumbnail">
-                <div class="preview-icon bg-warning">
-                  <i class="ti-settings mx-0"></i>
-                </div>
-              </div>
-              <div class="preview-item-content">
-                <h6 class="preview-subject font-weight-normal">Settings</h6>
-                <p class="font-weight-light small-text mb-0 text-muted">
-                  Private message
-                </p>
-              </div>
-            </a>
-            <a class="dropdown-item preview-item">
-              <div class="preview-thumbnail">
-                <div class="preview-icon bg-info">
-                  <i class="ti-user mx-0"></i>
-                </div>
-              </div>
-              <div class="preview-item-content">
-                <h6 class="preview-subject font-weight-normal">New user registration</h6>
-                <p class="font-weight-light small-text mb-0 text-muted">
-                  2 days ago
-                </p>
-              </div>
-            </a>
+            {% endfor %}
           </div>
         </li>
+        {% else %}
+        {% endif %}
         <li class="nav-item nav-profile dropdown">
           <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
             <img src="/media/profile_pics/20230531130657_fpDPFC2j.jpg" alt="profile"/>
@@ -129,32 +111,33 @@
         {% if user.is_staff %}
         <li class="nav-item">
           <a class="nav-link" href="{% url 'add_profile' %}">
-            <i class="icon-heart menu-icon"></i>
+            <i class="icon-user-follow menu-icon"></i>
             <span class="menu-title">Create a Profile </span>
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">
-            <i class="icon-heart menu-icon"></i>
+            <i class="icon-list menu-icon"></i>
             <span class="menu-title">List Profile's</span>
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link" data-toggle="collapse" href="#acc_creat" aria-expanded="false" aria-controls="acc_creat">
-            <i class="icon-settings menu-icon"></i>
-            <span class="menu-title">Account Creation</span>
+            <i class="icon-user menu-icon"></i>
+            <span class="menu-title">Account Management </span>
             <i class="menu-arrow"></i>
           </a>
           <div class="collapse" id="acc_creat">
             <ul class="nav flex-column sub-menu">
               <li class="nav-item"> <a class="nav-link" href="#">Create a Client </a></li>
               <li class="nav-item"> <a class="nav-link" href="#">Create a Admin </a></li>
+              <li class="nav-item"> <a class="nav-link" href="#">Asign Profile </a></li>
             </ul>
           </div>
         </li>
         <li class="nav-item">
           <a class="nav-link" data-toggle="collapse" href="#conf1" aria-expanded="false" aria-controls="conf1">
-            <i class="icon-settings menu-icon"></i>
+            <i class="icon-wrench menu-icon"></i>
             <span class="menu-title">Feilds Config </span>
             <i class="menu-arrow"></i>
           </a>

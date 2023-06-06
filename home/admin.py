@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
-from .models import ClintProfile, Category, KeySkill, UserProfile
+from .models import ClintProfile, Category, KeySkill, UserProfile, Notification
 
 
 class UserProfileInline(admin.StackedInline):
@@ -21,3 +21,4 @@ admin.site.register(ClintProfile)
 admin.site.register(Category)
 admin.site.register(KeySkill)
 admin.site.register(UserProfile)
+admin.site.register(Notification)

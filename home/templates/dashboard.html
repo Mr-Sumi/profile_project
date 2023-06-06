@@ -127,10 +127,12 @@
         <div class="card">
             <div class="col-12 grid-margin"> 
             <div class="card-body">
-              <h4 class="card-title">Our Recommendations </h4>
+              <h4 class="card-title">  
+                {% if user.is_staff or user.is_superuser %}
+                {% else %}Our Recommendations {% endif %}  </h4>
               <p class="card-description">
-                 
-              </p>
+                {% if user.is_staff or user.is_superuser %}
+              {% else %}
   <div class="wrapper-grid1">
     <div class="container1">
       <div class='banner-img1'></div>
@@ -155,6 +157,8 @@
       <p class="description">Hi there! My name is Anna and I am a book lover, traveler and professional blogger. Follow me to stay connected!</p>
       <button class='btn1'>Follow</button>
     </div>
+    {% endif %}
+                                                                  
   </div>
 </div>
 </div>

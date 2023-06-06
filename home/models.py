@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.urls import reverse
 
 class Category(models.Model):
     category_id = models.CharField(max_length=5, unique=True, editable=False)
@@ -56,8 +57,20 @@ class ClintProfile(models.Model):
     company = models.CharField(max_length=255)
     designation = models.CharField(max_length=255)
     is_featured = models.BooleanField(default=False)
-    featured_profile = models.ManyToManyField(UserProfile, blank=True, null=True, related_name='featured_profiles_custom')
-    wishlist = models.ManyToManyField(UserProfile, blank=True,  null=True, related_name='wishlists_custom')
+    featured_profile = models.ManyToManyField(UserProfile, blank=True, related_name='featured_profiles_custom')
+    wishlist = models.ManyToManyField(UserProfile, blank=True, related_name='wishlists_custom')
 
     def __str__(self):
         return self.user.username
+
+class Notification(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    message = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.message
+
+    def get_absolute_url(self):
+        return reverse('notification_detail', kwargs={'pk': self.pk})
+    

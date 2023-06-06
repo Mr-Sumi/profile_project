@@ -15,6 +15,9 @@ urlpatterns = [
    path('api/update_my_profile/', views.profile, name='update_my_profile'),
    path('api/delete_profile/', views.profile, name='delete_profile'),
    path('logout', views.logout1, name='logout'),
+   path('dashboard/assign-profile/', views.assign_profile, name='assign_profile'),
+   path('profile/<str:profile_id>/', views.profile_user, name='user_profile'),
+   path('profile/wishlist/<str:profile_id>/', views.add_to_wishlist, name='add_to_wishlist'),
 ]
 
 # urls.py

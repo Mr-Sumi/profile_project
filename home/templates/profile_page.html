@@ -1,0 +1,312 @@
+{% extends 'base.html' %}
+{% block title %}
+Client 
+{% endblock title %}
+{% block styles %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.5.5/css/simple-line-icons.min.css" integrity="sha512-QKC1UZ/ZHNgFzVKSAhV5v5j73eeL9EEN289eKAEFaAjgAiobVAnVv/AGuPbXsKl1dNoel3kNr6PYnSiTzVVBCw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/3.6.95/css/materialdesignicons.css" rel="stylesheet">
+<style>
+    body {
+        background-color: #f9f9fa
+    }
+    
+    .padding {
+        paddding: 3rem !important
+    }
+    
+    .user-card-full {
+        overflow: hidden;
+    }
+    
+    .card {
+        border-radius: 5px;
+        -webkit-box-shadow: 0 1px 20px 0 rgba(69,90,100,0.08);
+        box-shadow: 0 1px 20px 0 rgba(69,90,100,0.08);
+        border: none;
+        margin-bottom: 30px;
+    }
+    
+    .m-r-0 {
+        margin-right: 0px;
+    }
+    
+    .m-l-0 {
+        margin-left: 0px;
+    }
+    
+    .user-card-full .user-profile {
+        border-radius: 5px 0 0 5px;
+    }
+    
+    .bg-c-lite-green {
+            background: -webkit-gradient(linear, left top, right top, from(#f29263), to(#ee5a6f));
+        background: linear-gradient(to right, #ee5a6f, #f29263);
+    }
+    
+    .user-profile {
+        padding: 20px 0;
+    }
+    
+    .card-block {
+        padding: 1.25rem;
+    }
+    
+    .m-b-25 {
+        margin-bottom: 25px;
+    }
+    
+    .img-radius {
+        border-radius: 5px;
+    }
+    
+    
+     
+    h6 {
+        font-size: 14px;
+    }
+    
+    .card .card-block p {
+        line-height: 25px;
+    }
+    
+    @media only screen and (min-width: 1400px){
+    p {
+        font-size: 14px;
+    }
+    }
+    
+    .card-block {
+        padding: 1.25rem;
+    }
+    
+    .b-b-default {
+        border-bottom: 1px solid #e0e0e0;
+    }
+    
+    .m-b-20 {
+        margin-bottom: 20px;
+    }
+    
+    .p-b-5 {
+        padding-bottom: 5px !important;
+    }
+    
+    .card .card-block p {
+        line-height: 25px;
+    }
+    
+    .m-b-10 {
+        margin-bottom: 10px;
+    }
+    
+    .text-muted {
+        color: #919aa3 !important;
+    }
+    
+    .b-b-default {
+        border-bottom: 1px solid #e0e0e0;
+    }
+    
+    .f-w-600 {
+        font-weight: 600;
+    }
+    
+    .m-b-20 {
+        margin-bottom: 20px;
+    }
+    
+    .m-t-40 {
+        margin-top: 20px;
+    }
+    
+    .p-b-5 {
+        padding-bottom: 5px !important;
+    }
+    
+    .m-b-10 {
+        margin-bottom: 10px;
+    }
+    
+    .m-t-40 {
+        margin-top: 20px;
+    }
+    
+    .user-card-full .social-link li {
+        display: inline-block;
+    }
+    
+    .user-card-full .social-link li a {
+        font-size: 20px;
+        margin: 0 10px 0 0;
+        -webkit-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+    }
+    
+    
+    
+    .checked{
+        color: yellow;
+    }
+    .gry{
+        color: gray;
+    }
+    .img-radius {
+        border-radius: 50%;
+        height: 120px;
+        width: 120px;
+    }
+</style>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+{% endblock styles %}
+{% block script %}
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+            <script>
+                document.getElementById('wishlist-form').addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    
+                    Swal.fire({
+                        title: "Success",
+                        text: "Profile added to wishlist successfully",
+                        icon: "success",
+                    }).then(function() {
+                        document.getElementById('wishlist-form').submit();
+                    });
+                });
+            </script>
+       
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+{% endblock script %}
+
+{% block body %}
+<div class="page-content page-container" id="page-content">
+    <div class="padding">
+        <div class="row container d-flex justify-content-center">
+<div class="col-xl-6 col-md-12">
+                                                <div class="card user-card-full">
+                                                    <div class="row m-l-0 m-r-0">
+                                                        <div class="col-sm-4 bg-c-lite-green user-profile">
+                                                            <div class="card-block text-center text-white">
+                                                                <div class="m-b-25">
+                                                                    <img src="/media/{{ profile.profile_pic }}" class="img-radius" alt="User-Profile-Image">
+                                                                </div>
+                                                                <h6 class="f-w-600">{{ profile.name }}</h6>
+                                                                {% if profile.rating >= 1.0 %}
+                                                                <span class="fa fa-star checked"></span>
+                                                              {% else %}
+                                                                <span class="fa fa-star "></span>
+                                                              {% endif %}
+                                                              
+                                                              {% if profile.rating >= 2.0 %}
+                                                                <span class="fa fa-star checked"></span>
+                                                              {% else %}
+                                                                <span class="fa fa-star "></span>
+                                                              {% endif %}
+                                                              
+                                                              {% if profile.rating >= 3.0 %}
+                                                                <span class="fa fa-star checked "></span>
+                                                              {% else %}
+                                                                <span class="fa fa-star "></span>
+                                                              {% endif %}
+                                                              
+                                                              {% if profile.rating >= 4.0 %}
+                                                                <span class="fa fa-star checked"></span>
+                                                              {% else %}
+                                                                <span class="fa fa-star "></span>
+                                                              {% endif %}
+                                                              
+                                                              {% if profile.rating >= 5.0 %}
+                                                                <span class="fa fa-star checked"></span>
+                                                              {% else %}
+                                                                <span class="fa fa-star "></span>
+                                                              {% endif %}
+                                                                <p style="margin-bottom: 0;">Commercial</p>
+                                                                <h6 class="text ">{{ profile.commercial_hr}}/hr, {{ profile.commercial_day}}/day</h6>
+                                                                
+                                                                <!----i class=" mdi mdi-square-edit-outline feather icon-edit m-t-10 f-16"></i---->
+
+                                                                 
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-8">
+                                                            <div class="card-block">
+                                                                <h6 class="m-b-20 p-b-5 b-b-default f-w-600">Information</h6>
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <p class="m-b-10 f-w-600"> Category</p>
+                                                                        <h6 class="text-muted f-w-600"> {% for category in profile.category.all %} {{ category.category_name }} {% if not forloop.last %} | {% endif %}{% endfor %}</h6>
+                                                                    </div>
+                                                                </div>
+                                                                   
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <p class="m-b-10 f-w-600">Key Skill</p>
+                                                                <h6 class="text-muted f-w-600"> {% for key_skill in profile.key_skills.all %} {{ key_skill.key_skill_name }} {% if not forloop.last %} | {% endif %}{% endfor %}</h6>
+
+                                                                    </div>
+                                                                </div> <hr>
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <p class="m-b-10 f-w-600">Experience</p>
+                                                                        <h6 class="text-muted f-w-600">{{ profile.experience }}</h6>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                                <div class="row">
+                                                                    <div class="col-sm-6">
+                                                                        <p class="m-b-10 f-w-600">Deliveries</p>
+                                                                        <h6 class="text-muted f-w-400">{{ profile.deliveries}}</h6>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <p class="m-b-10 f-w-600">Education</p>
+                                                                        <h6 class="text-muted f-w-400">{{ profile.education}}</h6>
+                                                                    </div>
+                                                                </div>                    <hr>
+                                                                <div class="row justify-content-center user-social-link">
+                                                                    <div class="col-auto"> <a href="#" >
+                                                                        <button type="button" class="btn btn-outline-primary btn-icon-text btn-sm">
+                                                                            <i class="icon-arrow-left-circle " style="font-size:15px;"></i>
+                                                                            Back
+                                                                          </button></a></div>
+                                                                    <div class="col-auto">
+                                                                   
+                                                                    {% if user.is_authenticated %}
+                                                                        {% if user.is_superuser or user.is_staff %}
+                                                                            <p>You Are An Admin</p>
+                                                                        {% else %}
+                                                                                {% if profile in clint_profile.wishlist.all %}
+                                                                                    <p>Already wishlisted</p>
+                                                                                {% else %}
+                                                                                    <form id="wishlist-form" action="{% url 'add_to_wishlist' profile_id=profile.profile_id %}" method="POST">
+                                                                                        {% csrf_token %}
+                                                                                <button type="submit" value="Submit" form="wishlist-form" class="btn btn-outline-success btn-icon-text btn-sm">
+                                                                                <i class="icon-paper-clip " style="font-size:15px;"></i>
+                                                                                Wishlist 
+                                                                            </button>  </form>
+                                                                            {% endif %}
+                                                                      {% endif %}
+                                                                  {% endif %}</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                             </div>
+                                                </div>
+                                            </div>
+{% endblock body %}

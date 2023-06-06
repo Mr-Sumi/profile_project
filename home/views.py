@@ -1,5 +1,5 @@
 
-from django.shortcuts import redirect, render, HttpResponse, HttpResponseRedirect
+from django.shortcuts import redirect, render, HttpResponse, get_object_or_404
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout 
@@ -7,7 +7,7 @@ import os
 import random
 import string
 from datetime import datetime
-from .models import Category, KeySkill, UserProfile, User, ClintProfile
+from .models import Category, KeySkill, UserProfile, User, ClintProfile, Notification
 import uuid
 from django.contrib import messages
 from django.core.files.storage import default_storage
@@ -39,18 +39,23 @@ def dashboard1(request):
         #return redirect('admin:index') makemigrations
         #logout(request)
        # return redirect('login')
-       pass 
+       pass
+    notifications = Notification.objects.all()
     user = request.user
     # Access user data
     username = user.username
     email = user.email
-    user_profile = user.clintprofile
-    name = user_profile.name
+    if request.user.is_superuser:
+        name = username
+    else:
+        user_profile = user.clintprofile
+        name = user_profile.name
 
     context = {
         'username': username,
         'email': email,
         'name': name,
+        'notifications': notifications,
         # ... Add other user data fields to the context
     }
 
@@ -183,9 +188,9 @@ def category_view(request):
         
         try:
             category = Category.objects.create(category_name=category_name)
-            messages.success(request, 'Key skill added successfully!')
+            messages.success(request, 'Category added successfully!')
         except Exception as e:
-            messages.error(request, 'Error adding key skill: {}'.format(str(e)))
+            messages.error(request, 'Error adding Category : {}'.format(str(e)))
     return render(request, 'category_view.html')
     
 def update_profile(request):
@@ -236,3 +241,59 @@ def generate_random_filename(filename):
     _, extension = os.path.splitext(filename)
     random_filename = f'{timestamp}_{random_string}{extension}'
     return random_filename
+
+def profile_user(request, profile_id):
+    profile = get_object_or_404(UserProfile, profile_id=profile_id)
+    if request.user.is_superuser:
+        mainy='hii'
+    else:
+        clint_profile = get_object_or_404(ClintProfile, user=request.user)
+        return render(request, 'profile_page.html', {'profile': profile, 'clint_profile': clint_profile})
+    return render(request, 'profile_page.html', {'profile': profile})
+
+def add_to_wishlist(request, profile_id):
+    clint_profile = get_object_or_404(ClintProfile, user=request.user)
+    user_profile = get_object_or_404(UserProfile, profile_id=profile_id)
+
+    if user_profile in clint_profile.wishlist.all():
+        # Profile is already wishlisted
+        messages.error(request, 'Profile is already wishlisted.')
+    else:
+        clint_profile.wishlist.add(user_profile)
+        messages.success(request, 'Profile added to wishlist successfully.')
+        notification_message = clint_profile+" Shortlisted "+user_profile.name+"(id: "+user_profile+")"
+            # Create a notification
+        notification = Notification(user=request.user, message=notification_message)
+        notification.save()
+
+    return redirect('user_profile', profile_id=profile_id)
+
+def assign_profile(request):
+    if request.method == 'POST':
+        selected_clients = request.POST.getlist('clients')
+        selected_profiles = request.POST.getlist('profiles')
+
+        try:
+            clients = ClintProfile.objects.filter(id__in=selected_clients)
+            profiles = UserProfile.objects.filter(id__in=selected_profiles)
+
+            for client in clients:
+                client.featured_profile.clear()  # Clear existing featured profiles
+                client.featured_profile.add(*profiles)  # Assign selected profiles
+                client.is_featured = True
+                client.save()
+
+
+                messages.success(request, 'Featured profiles updated successfully.')
+        except Exception as e:
+            messages.error(request, f'Error occurred: {str(e)}')
+
+        # Retrieve all client profiles and user profiles
+    client_profiles = ClintProfile.objects.all()
+    user_profiles = UserProfile.objects.all()
+        
+    context = {
+            'client_profiles': client_profiles,
+            'user_profiles': user_profiles
+        }
+    return render(request, 'assign_profile.html', context)
