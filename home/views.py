@@ -1,4 +1,5 @@
 
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render, HttpResponse, get_object_or_404
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required
@@ -12,6 +13,7 @@ import uuid
 from django.contrib import messages
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
+from datetime import datetime
 # Create your views here.
 
 def index1(request):
@@ -47,15 +49,21 @@ def dashboard1(request):
     email = user.email
     if request.user.is_superuser:
         name = username
+        client_profiles = 'no profile'
     else:
         user_profile = user.clintprofile
         name = user_profile.name
-
+    
+    client = request.user.clintprofile  # Get the client profile of the logged-in user
+    featured_profiles = client.featured_profile.all()  # Get the featured profiles associated with the client
+    current_date = datetime.now()
     context = {
         'username': username,
         'email': email,
         'name': name,
         'notifications': notifications,
+        'current_date': current_date,
+        'featured_profiles': featured_profiles
         # ... Add other user data fields to the context
     }
 
@@ -225,8 +233,37 @@ def create_client(request):
     return render(request, 'client_create.html',{'users':users})
 
 def all_profile(request):
-    users = UserProfile.objects.all()
-    return render(request, 'all_profile.html',{'users':users})
+    if request.user.is_superuser:
+        mainy='hii'
+        wishlist_profiles="no"
+    else:
+        client = request.user.clintprofile
+        wishlist_profiles = client.wishlist.all()
+    if request.method == 'POST':
+        selected_categories = request.POST.getlist('categories')
+        selected_key_skills = request.POST.getlist('key_skills')
+
+        profiles = UserProfile.objects.all()
+
+        if selected_categories:
+            # Filter profiles based on selected categories
+            user_ps = profiles.filter(category__in=selected_categories)
+
+        if selected_key_skills:
+            # Filter profiles based on selected key skills
+            user_ps = profiles.filter(key_skills__in=selected_key_skills)
+
+        user_ps = user_ps.distinct()
+
+        categories = Category.objects.all()
+        key_skills = KeySkill.objects.all()
+
+        return render(request, 'all_profile.html', {'user_ps': user_ps, 'categories': categories, 'key_skills': key_skills})
+
+    user_ps = UserProfile.objects.all()
+    categories = Category.objects.all()
+    key_skills = KeySkill.objects.all()
+    return render(request, 'all_profile.html',{'user_ps': user_ps, 'categories': categories, 'key_skills': key_skills, 'wishlist_profiles': wishlist_profiles})
     # return HttpResponse('this is profile')
 
 
@@ -261,12 +298,12 @@ def add_to_wishlist(request, profile_id):
     else:
         clint_profile.wishlist.add(user_profile)
         messages.success(request, 'Profile added to wishlist successfully.')
-        notification_message = clint_profile+" Shortlisted "+user_profile.name+"(id: "+user_profile+")"
+        notification_message = str(clint_profile)+" Shortlisted "+str(user_profile.name)+"(id: "+str(user_profile)+")"
             # Create a notification
         notification = Notification(user=request.user, message=notification_message)
         notification.save()
-
     return redirect('user_profile', profile_id=profile_id)
+
 
 def assign_profile(request):
     if request.method == 'POST':
@@ -297,3 +334,21 @@ def assign_profile(request):
             'user_profiles': user_profiles
         }
     return render(request, 'assign_profile.html', context)
+
+
+def add_to_wishlist2(request, profile_id):
+    clint_profile = get_object_or_404(ClintProfile, user=request.user)
+    user_profile = get_object_or_404(UserProfile, profile_id=profile_id)
+
+    if user_profile in clint_profile.wishlist.all():
+        # Profile is already wishlisted
+        messages.error(request, 'Profile is already wishlisted.')
+    else:
+        clint_profile.wishlist.add(user_profile)
+        messages.success(request, 'Profile added to wishlist successfully.')
+        notification_message = str(clint_profile)+" Shortlisted "+str(user_profile.name)+"(id: "+str(user_profile)+")"
+            # Create a notification
+        notification = Notification(user=request.user, message=notification_message)
+        notification.save()
+
+    return redirect('all_profile')

@@ -116,7 +116,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">
+          <a class="nav-link" href="{% url 'all_profile' %}">
             <i class="icon-list menu-icon"></i>
             <span class="menu-title">List Profile's</span>
           </a>
@@ -129,19 +129,19 @@
           </a>
           <div class="collapse" id="acc_creat">
             <ul class="nav flex-column sub-menu">
-              <li class="nav-item"> <a class="nav-link" href="#">Create a Client </a></li>
+              <li class="nav-item"> <a class="nav-link" href="{% url 'create_client' %}">Create a Client </a></li>
               <li class="nav-item"> <a class="nav-link" href="#">Create a Admin </a></li>
-              <li class="nav-item"> <a class="nav-link" href="#">Asign Profile </a></li>
+              <li class="nav-item"> <a class="nav-link" href="{% url 'assign_profile' %}">Asign Profile </a></li>
             </ul>
           </div>
         </li>
         <li class="nav-item">
-          <a class="nav-link" data-toggle="collapse" href="#conf1" aria-expanded="false" aria-controls="conf1">
+          <a class="nav-link" data-toggle="collapse" href="#cat1" aria-expanded="false" aria-controls="conf1">
             <i class="icon-wrench menu-icon"></i>
             <span class="menu-title">Feilds Config </span>
             <i class="menu-arrow"></i>
           </a>
-          <div class="collapse" id="conf1">
+          <div class="collapse" id="cat1">
             <ul class="nav flex-column sub-menu">
               <li class="nav-item"> <a class="nav-link" href="{% url 'category' %}">Create a Category </a></li>
               <li class="nav-item"> <a class="nav-link" href="{% url 'key_skill' %}">Create a Skill </a></li>
@@ -150,15 +150,9 @@
         </li>
         {% else %}
         <li class="nav-item">
-          <a class="nav-link" href="#">
+          <a class="nav-link" href="{% url 'all_profile' %}">
             <i class="icon-layers menu-icon"></i>
             <span class="menu-title">All Profile's</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">
-            <i class="icon-heart menu-icon"></i>
-            <span class="menu-title">My Shortlist's</span>
           </a>
         </li>
         {% endif %}

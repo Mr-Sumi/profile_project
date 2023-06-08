@@ -18,6 +18,7 @@ urlpatterns = [
    path('dashboard/assign-profile/', views.assign_profile, name='assign_profile'),
    path('profile/<str:profile_id>/', views.profile_user, name='user_profile'),
    path('profile/wishlist/<str:profile_id>/', views.add_to_wishlist, name='add_to_wishlist'),
+   path('profile/<str:profile_id>/wishlist/', views.add_to_wishlist2, name='add_to_wishlist2'),
 ]
 
 # urls.py
