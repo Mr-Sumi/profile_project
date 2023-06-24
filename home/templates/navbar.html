@@ -1,4 +1,4 @@
-<!-- partial:partials/_navbar.html -->
+<!-- partial:partials/_navbar.html -->{% if user.is_staff %}
 <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
     <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
       <a class="navbar-brand brand-logo mr-5" href="index.html"><img src="images/logo.svg" class="mr-2" alt="logo"/></a>
@@ -108,7 +108,7 @@
             <span class="menu-title">Dashboard</span>
           </a>
         </li>
-        {% if user.is_staff %}
+        
         <li class="nav-item">
           <a class="nav-link" href="{% url 'add_profile' %}">
             <i class="icon-user-follow menu-icon"></i>
@@ -148,14 +148,13 @@
             </ul>
           </div>
         </li>
-        {% else %}
         <li class="nav-item">
           <a class="nav-link" href="{% url 'all_profile' %}">
             <i class="icon-layers menu-icon"></i>
             <span class="menu-title">All Profile's</span>
           </a>
         </li>
-        {% endif %}
+        
         <li class="nav-item">
           <a class="nav-link" data-toggle="collapse" href="#settings" aria-expanded="false" aria-controls="settings">
             <i class="icon-settings menu-icon"></i>
@@ -177,6 +176,66 @@
       </ul>
     </nav>
 
+    {% else %} 
+      <nav class="navbar navbar-expand-custom navbar-mainbg">
+        <a class="navbar-brand navbar-logo" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars text-white"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <div class="hori-selector"><div class="left"></div><div class="right"></div></div>
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript:void(0);"><i class="icon-grid menu-icon"></i>Dashboard</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="javascript:void(0);"><i class="far fa-address-book"></i>All Profile's</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript:void(0);"><i class="icon-user menu-icon"></i>My Profile </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div style="display: flex;" id="sidebar3">
+      <form class="forms-sampleu" method="POST" >
+          {% csrf_token %}
+        
+          <div class="form-grop">
+              <label for="container1">Category</label>
+              <select class="form-multi-select" multiple data-coreui-search="true" id="cat1" name="categories">
+                {% for category in categories %}
+                  <option value="{{ category.id }}">{{ category.category_name }}</option>
+                {% endfor %}
+              </select>
+              </div>  
+              
+          <div class="form-grop">
+              <label for="container1">Key Skill</label>
+              <select class="form-multi-select" multiple data-coreui-search="true" id="cat1" name="key_skills">
+                {% for key_skill in key_skills %}
+                  <option value="{{ key_skill.id }}">{{ key_skill.key_skill_name }}</option>
+                {% endfor %}
+              </select>
+              </div>  
+          <button type="submit" class="btn btn-primary mr-2">Apply Filter </button>
+          <a href="{% url 'all_profile' %}"  class="btn btn-light">Reset Filter </a>
+      </form>
+    </div>
+        {% endif %}
+        <style>
+          {% if user.is_superuser %}
+    
+    {% else %}
+    .main-panel {
+    }
+    .navbar{
+      padding: 0rem 1rem;
+    }
+    
+    {% endif %}
+    </style>
       <!-- partial -->
       <div class="main-panel">
         <div class="content-wrapper">

@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render, HttpResponse, get_object_or_404
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import authenticate, login, logout 
 import os
 import random
@@ -41,7 +42,7 @@ def dashboard1(request):
         #return redirect('admin:index') makemigrations
         #logout(request)
        # return redirect('login')
-       pass
+      featured_profiles= 'hi'
     notifications = Notification.objects.all()
     user = request.user
     # Access user data
@@ -54,8 +55,8 @@ def dashboard1(request):
         user_profile = user.clintprofile
         name = user_profile.name
     
-    client = request.user.clintprofile  # Get the client profile of the logged-in user
-    featured_profiles = client.featured_profile.all()  # Get the featured profiles associated with the client
+        client = request.user.clintprofile  # Get the client profile of the logged-in user
+        featured_profiles = client.featured_profile.all()  # Get the featured profiles associated with the client
     current_date = datetime.now()
     context = {
         'username': username,
@@ -72,6 +73,7 @@ def dashboard1(request):
 def vm(request):
    return render(request, 'vm.html')
 
+@login_required
 def profile(request):
    user = request.user
    username = user.username
@@ -112,7 +114,7 @@ def generate_random_filename(filename):
     random_name = uuid.uuid4().hex
     return f"{random_name}.{ext}"
 
-# ...
+@staff_member_required
 def create_profile(request):
     if request.method == 'POST':
         # Retrieve form data
@@ -174,7 +176,7 @@ def create_profile(request):
 
     return render(request, 'profile_create.html', {'categories': categories, 'key_skills': key_skills})
 
-
+@staff_member_required
 def key_skill(request):
     if request.method == 'POST':
         key_skill_name = request.POST['key_skill_name']
@@ -188,7 +190,7 @@ def key_skill(request):
     
     return render(request, 'key_skill.html')
 
-
+@staff_member_required
 def category_view(request):
     if request.method == 'POST':
         category_name = request.POST['category_name']
@@ -204,6 +206,7 @@ def category_view(request):
 def update_profile(request):
     return HttpResponse('this is profile')
 
+@staff_member_required
 def create_client(request):
     if request.method == 'POST':
         # Get the form data from the request
@@ -232,6 +235,7 @@ def create_client(request):
     users = ClintProfile.objects.all()
     return render(request, 'client_create.html',{'users':users})
 
+@login_required
 def all_profile(request):
     if request.user.is_superuser:
         mainy='hii'
@@ -258,7 +262,7 @@ def all_profile(request):
         categories = Category.objects.all()
         key_skills = KeySkill.objects.all()
 
-        return render(request, 'all_profile.html', {'user_ps': user_ps, 'categories': categories, 'key_skills': key_skills})
+        return render(request, 'all_profile.html', {'user_ps': user_ps, 'categories': categories, 'key_skills': key_skills, 'wishlist_profiles': wishlist_profiles})
 
     user_ps = UserProfile.objects.all()
     categories = Category.objects.all()
@@ -288,6 +292,7 @@ def profile_user(request, profile_id):
         return render(request, 'profile_page.html', {'profile': profile, 'clint_profile': clint_profile})
     return render(request, 'profile_page.html', {'profile': profile})
 
+@login_required
 def add_to_wishlist(request, profile_id):
     clint_profile = get_object_or_404(ClintProfile, user=request.user)
     user_profile = get_object_or_404(UserProfile, profile_id=profile_id)
@@ -305,6 +310,7 @@ def add_to_wishlist(request, profile_id):
     return redirect('user_profile', profile_id=profile_id)
 
 
+@staff_member_required
 def assign_profile(request):
     if request.method == 'POST':
         selected_clients = request.POST.getlist('clients')
@@ -335,7 +341,7 @@ def assign_profile(request):
         }
     return render(request, 'assign_profile.html', context)
 
-
+@login_required
 def add_to_wishlist2(request, profile_id):
     clint_profile = get_object_or_404(ClintProfile, user=request.user)
     user_profile = get_object_or_404(UserProfile, profile_id=profile_id)
